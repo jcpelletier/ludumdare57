@@ -72,3 +72,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+/LudumDare57/WebGL Builds
+/LudumDare57/Temp
+/LudumDare57/Logs
+/LudumDare57/Library
