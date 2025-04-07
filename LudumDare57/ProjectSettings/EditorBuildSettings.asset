@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/LudumDare/MenuScene.unity
     guid: cacc68b0ca94995499e34d1834c55793
   - enabled: 1
-    path: Assets/LudumDare/GameScene.unity
-    guid: a74e83f69ac8725489e7598fd617ee04
-  - enabled: 1
     path: Assets/LudumDare/StoryScene.unity
     guid: b22bbdec82e53c14d87ad8c7fa16c029
+  - enabled: 1
+    path: Assets/LudumDare/GameScene.unity
+    guid: a74e83f69ac8725489e7598fd617ee04
   m_configObjects: {}

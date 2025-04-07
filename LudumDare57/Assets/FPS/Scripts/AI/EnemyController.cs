@@ -207,7 +207,7 @@ namespace Unity.FPS.AI
             DetectionModule.HandleTargetDetection(m_Actor, m_SelfColliders);
 
             Color currentColor = OnHitBodyGradient.Evaluate((Time.time - m_LastTimeDamaged) / FlashOnHitDuration);
-            m_BodyFlashMaterialPropertyBlock.SetColor("_EmissionColor", currentColor);
+            //m_BodyFlashMaterialPropertyBlock.SetColor("_EmissionColor", currentColor);
             foreach (var data in m_BodyRenderers)
             {
                 data.Renderer.SetPropertyBlock(m_BodyFlashMaterialPropertyBlock, data.MaterialIndex);
