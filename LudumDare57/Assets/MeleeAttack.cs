@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.FPS.Game; // For Damageable
+using System.Collections.Generic;
 
 public class MeleeAttack : MonoBehaviour
 {
@@ -41,7 +42,6 @@ public class MeleeAttack : MonoBehaviour
 
     void Update()
     {
-        // Use left mouse button as an example attack trigger.
         if (Input.GetMouseButtonDown(0) && !isAttacking && Time.time >= nextAttackTime)
         {
             Debug.Log("Punch Triggered");
@@ -51,11 +51,10 @@ public class MeleeAttack : MonoBehaviour
         }
     }
 
-    // Called by animation event when the punch hits
+    // Called by animation event
     public void Punched()
     {
         Debug.Log("Punched() event fired");
-
         PerformMeleeAttack();
         isAttacking = false;
     }
@@ -65,28 +64,36 @@ public class MeleeAttack : MonoBehaviour
         Vector3 attackPoint = transform.position + transform.forward * meleeRange;
         Debug.Log($"Performing melee at {attackPoint}");
 
-        Collider[] hitColliders = Physics.OverlapSphere(attackPoint, meleeRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(attackPoint, meleeRadius, hittableLayers);
         Debug.Log($"Hit {hitColliders.Length} objects");
+
+        HashSet<GameObject> damagedObjects = new HashSet<GameObject>();
 
         foreach (Collider col in hitColliders)
         {
-            // If the target has a Damageable component, apply damage.
-            Damageable damageable = col.GetComponent<Damageable>();
+            GameObject target = col.gameObject;
+
+            if (damagedObjects.Contains(target))
+                continue;
+
+            if (target == owner)
+                continue;
+
+            Damageable damageable = target.GetComponent<Damageable>();
             if (damageable != null)
             {
                 damageable.InflictDamage(meleeDamage, false, owner);
+                damagedObjects.Add(target);
             }
 
-            // Apply knockback if the target has a Rigidbody.
             Rigidbody rb = col.attachedRigidbody;
             if (rb != null)
             {
-                Vector3 knockbackDirection = (col.transform.position - transform.position).normalized;
+                Vector3 knockbackDirection = (target.transform.position - transform.position).normalized;
                 rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
             }
         }
 
-        // Optionally spawn a visual effect at the attack point.
         if (impactVfx != null)
         {
             GameObject vfxInstance = Instantiate(impactVfx, attackPoint, Quaternion.identity);
@@ -96,14 +103,23 @@ public class MeleeAttack : MonoBehaviour
             }
         }
 
-        // Optionally play a sound effect at the attack point.
         if (impactSfxClip != null)
         {
             AudioSource.PlayClipAtPoint(impactSfxClip, attackPoint);
         }
+
+        // Spawn a visible red debug sphere at the attack point
+        /*
+        GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        debugSphere.transform.position = attackPoint;
+        debugSphere.transform.localScale = Vector3.one * meleeRadius * 2f;
+        debugSphere.GetComponent<Collider>().enabled = false;
+        debugSphere.GetComponent<Renderer>().material.color = Color.red;
+        Destroy(debugSphere, 1.0f);
+        */
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Vector3 attackPoint = transform.position + transform.forward * meleeRange;
