@@ -8,10 +8,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/LudumDare/MenuScene.unity
     guid: cacc68b0ca94995499e34d1834c55793
-  - enabled: 1
+  - enabled: 0
     path: Assets/LudumDare/GameScene.unity
     guid: a74e83f69ac8725489e7598fd617ee04
-  - enabled: 1
+  - enabled: 0
     path: Assets/LudumDare/StoryScene.unity
     guid: b22bbdec82e53c14d87ad8c7fa16c029
+  - enabled: 0
+    path: Assets/HISPlayerSample/Scenes/HISPlayerSample.unity
+    guid: 7b6d01625e32e4f1297230d1aa9748ce
+  - enabled: 0
+    path: Assets/GifTextures/Demo/Demo.unity
+    guid: 8d9749a0ac358394b8c00129b33436a0
+  - enabled: 0
+    path: Assets/LudumDare/VideoTest.unity
+    guid: 215c72ef607608041b037395023557ac
   m_configObjects: {}
